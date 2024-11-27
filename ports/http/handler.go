@@ -1,1 +1,0 @@
-// HTTP handler definitions for the endpoints
