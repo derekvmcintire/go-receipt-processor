@@ -1,14 +1,24 @@
-// The entry point of the application (web server setup)
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+    "go-receipt-processor/internal/adapters/http"
+    "go-receipt-processor/internal/application"
+    "github.com/gin-gonic/gin"
+)
 
 func main() {
+    // Create an instance of the ReceiptService implementation
+    receiptService := application.NewReceiptService()  // This returns a ReceiptServiceImpl
+
+    // Create the handler with the receipt service
+    handler := http.NewHandler(receiptService)
+
+    // Set up Gin router
     r := gin.Default()
-    r.GET("/ping", func(c *gin.Context) {
-        c.JSON(200, gin.H{
-            "message": "pong",
-        })
-    })
-    r.Run() // Start the server on localhost:8080
+
+    // Register routes and bind handlers
+    r.POST("/process", handler.ProcessReceipt)
+
+    // Run the Gin server
+    r.Run(":8080")
 }

@@ -1,1 +1,0 @@
-// The Receipt domain model (contains fields like retailer, items, total, etc.)
