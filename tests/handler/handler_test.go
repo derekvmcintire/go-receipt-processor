@@ -1,0 +1,1 @@
+// Tests for HTTP handlers (integration tests)

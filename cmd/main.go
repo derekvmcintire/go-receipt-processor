@@ -1,3 +1,4 @@
+// The entry point of the application (web server setup)
 package main
 
 import "github.com/gin-gonic/gin"

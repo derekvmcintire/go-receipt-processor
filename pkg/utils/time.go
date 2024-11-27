@@ -1,0 +1,1 @@
+// Utility function for time-based calculations
