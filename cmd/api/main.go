@@ -1,20 +1,22 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"go-receipt-processor/internal/container"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	// Create the container that manages all dependencies
-	appContainer := container.NewContainer()
+	c := container.NewContainer()
 
 	// Set up Gin router
-	r := gin.Default()
+	g := gin.Default()
 
 	// Register routes and pass the handlers from the container
-	r.POST("/receipt/process", appContainer.NewReceiptProcessHandler().ProcessReceipt)
+	g.POST("/receipt/process", c.NewReceiptProcessHandler().ProcessReceipt)
 
 	// Run the Gin server
-	r.Run(":8080")
+	g.Run(":8080")
+
 }
