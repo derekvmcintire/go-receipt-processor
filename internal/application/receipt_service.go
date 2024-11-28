@@ -37,6 +37,10 @@ func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, int
 		return "", 0, fmt.Errorf("invalid purchase time format: %v", err)
 	}
 
+	// @TODO: create a repository
+	// save receipt to repository with an id
+	// find receipt by id
+
 	// Generate a unique ID for the receipt. This is done using the `uuid.New().String()` method.
 	// This ID could be used for tracking the receipt or saving it in a database.
 	receiptID := uuid.New().String()
