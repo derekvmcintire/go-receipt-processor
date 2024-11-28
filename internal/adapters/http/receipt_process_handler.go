@@ -55,7 +55,6 @@ func (h *ReceiptProcessHandler) ProcesReceipt(c *gin.Context) {
 	// Call the `ProcessReceipt` method of the ReceiptService to process the receipt.
 	// This service method is responsible for business logic like calculating points.
 	receiptID, points, err := h.ReceiptService.ProcessReceipt(receipt)
-
 	if err != nil {
 		// If there is an error during the processing (e.g., business rule violation),
 		// return an InternalServerError (500) response with the error message.

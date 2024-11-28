@@ -13,7 +13,7 @@ func main() {
 	g := gin.Default()
 
 	// Register routes and pass the handlers from the container
-	g.POST("/receipt/process", c.NewReceiptProcessHandler().ProcesReceipt)
+	g.POST("/receipt/process", c.NewReceiptProcessHandler().ProcessReceipt)
 
 	// Run the Gin server
 	g.Run(":8080")
