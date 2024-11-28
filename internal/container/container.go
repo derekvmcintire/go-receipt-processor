@@ -17,7 +17,8 @@ type Container struct {
 	// ReceiptService is the service responsible for processing receipts.
 	// It's an interface defined in the `portsHttp` package, and it is implemented
 	// by a concrete service (e.g., `ReceiptServiceImpl` in the `application` package).
-	ReceiptService portsHttp.ReceiptService
+	ReceiptService   portsHttp.ReceiptService
+	PointsCalculator portsHttp.PointsCalculator
 }
 
 // NewContainer is a function that creates and returns a new instance of the Container.
@@ -29,7 +30,7 @@ func NewContainer() *Container {
 	// The factory function `application.NewReceiptService()` creates a concrete
 	// instance of the service (e.g., `ReceiptServiceImpl`).
 	return &Container{
-		ReceiptService: application.NewReceiptService(),
+		ReceiptService: application.NewReceiptService(application.NewPointsCalculator()),
 	}
 }
 

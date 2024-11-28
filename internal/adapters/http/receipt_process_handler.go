@@ -7,7 +7,6 @@ import (
 	netHttp "net/http"                                      // Standard Go package for HTTP-related constants (like StatusOK, StatusBadRequest) - Alias net/http to avoid name conflicts
 
 	"github.com/gin-gonic/gin" //Web framework for building REST APIs in Go
-	"github.com/google/uuid"   // Package to generate unique identifiers (UUIDs)
 )
 
 /*
@@ -48,10 +47,6 @@ func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 		c.JSON(netHttp.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	// Generate a unique ID for the receipt. This could be useful for tracking purposes.
-	// UUID ensures that the receipt ID is globally unique.
-	receipt.ID = uuid.New().String()
 
 	// Call the `ProcessReceipt` method of the ReceiptService to process the receipt.
 	// This service method is responsible for business logic like calculating points.
