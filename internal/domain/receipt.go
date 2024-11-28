@@ -9,10 +9,10 @@ type Item struct {
 }
 
 type Receipt struct {
-    ID          string
-    Retailer    string
-    PurchaseDate time.Time
-    PurchaseTime time.Time
-    Items       []Item
-    Total       float64
+	ID           string
+	Retailer     string
+	PurchaseDate time.Time
+	PurchaseTime time.Time
+	Items        []Item
+	Total        float64
 }

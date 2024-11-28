@@ -1,1 +1,0 @@
-// Unit tests for the points calculation logic
