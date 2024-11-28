@@ -2,11 +2,12 @@ package http
 
 // Importing necessary packages
 import (
-	"github.com/gin-gonic/gin"                              //Web framework for building REST APIs in Go
-	"github.com/google/uuid"                                // Package to generate unique identifiers (UUIDs)
 	"go-receipt-processor/internal/domain"                  //Package that holds the domain models (like Receipt)
 	internalHttp "go-receipt-processor/internal/ports/http" // The service interface for receipt processing (from the ports/http package) - Alias this import to avoid conflict with the gin package
 	netHttp "net/http"                                      // Standard Go package for HTTP-related constants (like StatusOK, StatusBadRequest) - Alias net/http to avoid name conflicts
+
+	"github.com/gin-gonic/gin" //Web framework for building REST APIs in Go
+	"github.com/google/uuid"   // Package to generate unique identifiers (UUIDs)
 )
 
 /*
@@ -34,7 +35,7 @@ func NewReceiptProcessHandler(service internalHttp.ReceiptService) *ReceiptProce
  * ProcessReceipt is the method that handles the HTTP POST request for processing a receipt.
  * It's tied to the route `/receipt/process` and processes incoming JSON data for a receipt.
  */
-func (h *ReceiptProcessHandler) ProcesReceipt(c *gin.Context) {
+func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 	// Declare a variable to hold the receipt data from the request.
 	var receipt domain.Receipt
 

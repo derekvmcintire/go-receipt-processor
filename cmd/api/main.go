@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"go-receipt-processor/internal/container"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
