@@ -7,6 +7,7 @@ package application
 // strings: Contains functions for string manipulation, such as `ReplaceAll` and `TrimSpace`.
 // uuid: Used to generate unique identifiers (UUIDs).
 import (
+	"fmt"
 	"go-receipt-processor/internal/domain"
 	"go-receipt-processor/internal/ports/http"
 
@@ -31,7 +32,10 @@ func NewReceiptService(c http.PointsCalculator) http.ReceiptService {
 // It returns a unique receipt ID, the calculated points, and any errors that occur during processing.
 func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, int, error) {
 
-	points := s.PointsCalculator.CalculatePoints(receipt)
+	points, err := s.PointsCalculator.CalculatePoints(receipt)
+	if err != nil {
+		return "", 0, fmt.Errorf("invalid purchase time format: %v", err)
+	}
 
 	// Generate a unique ID for the receipt. This is done using the `uuid.New().String()` method.
 	// This ID could be used for tracking the receipt or saving it in a database.

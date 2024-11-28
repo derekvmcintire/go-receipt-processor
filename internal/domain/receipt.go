@@ -1,8 +1,6 @@
 // The Receipt domain model (contains fields like retailer, items, total, etc.)
 package domain
 
-import "time"
-
 type Item struct {
 	ShortDescription string
 	Price            float64
@@ -11,8 +9,8 @@ type Item struct {
 type Receipt struct {
 	ID           string
 	Retailer     string
-	PurchaseDate time.Time
-	PurchaseTime time.Time
+	PurchaseDate string
+	PurchaseTime string
 	Items        []Item
 	Total        float64
 }
