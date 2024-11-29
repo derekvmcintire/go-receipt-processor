@@ -1,18 +1,18 @@
-// points_calculator_impl_test.go
 package application_test
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"go-receipt-processor/internal/application"
 	"go-receipt-processor/internal/domain"
 	"go-receipt-processor/tests/mocks"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	// Create a mock helper
-	mockHelper := new(mocks.MockPointsCalculatorHelpers)
+	mockRules := new(mocks.MockPointsCalculatorRules)
 
 	// Set up mock point return values
 	mockRetailerNamePoints := 5
@@ -24,13 +24,13 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	mockPurchaseTimePoints := 3
 
 	// Set up mock behavior for each helper function
-	mockHelper.On("AddPointsForRetailerName", mock.Anything).Return(mockRetailerNamePoints)
-	mockHelper.On("AddPointsForRoundDollarTotal", mock.Anything).Return(mockRoundDollarPoints, nil)
-	mockHelper.On("AddPointsForMultipleOfQuarter", mock.Anything).Return(mockMultipleOfQuarterPoints, nil)
-	mockHelper.On("AddPointsForItemCount", mock.Anything).Return(mockItemCountPoints)
-	mockHelper.On("AddPointsForItemDescriptions", mock.Anything).Return(mockItemDescriptionPoints, nil)
-	mockHelper.On("AddPointsForOddDay", mock.Anything).Return(mockOddDayPoints)
-	mockHelper.On("AddPointsForAfternoonPurchaseTime", mock.Anything).Return(mockPurchaseTimePoints)
+	mockRules.On("AddPointsForRetailerName", mock.Anything).Return(mockRetailerNamePoints)
+	mockRules.On("AddPointsForRoundDollarTotal", mock.Anything).Return(mockRoundDollarPoints, nil)
+	mockRules.On("AddPointsForMultipleOfQuarter", mock.Anything).Return(mockMultipleOfQuarterPoints, nil)
+	mockRules.On("AddPointsForItemCount", mock.Anything).Return(mockItemCountPoints)
+	mockRules.On("AddPointsForItemDescriptions", mock.Anything).Return(mockItemDescriptionPoints, nil)
+	mockRules.On("AddPointsForOddDay", mock.Anything).Return(mockOddDayPoints)
+	mockRules.On("AddPointsForAfternoonPurchaseTime", mock.Anything).Return(mockPurchaseTimePoints)
 
 	// Set up expected points
 	expectedPoints := 0
@@ -43,7 +43,7 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	expectedPoints += mockPurchaseTimePoints
 
 	// Create a new PointsCalculator instance with the mocked helpers
-	calculator := application.NewPointsCalculator(mockHelper)
+	calculator := application.NewPointsCalculator(mockRules)
 
 	// Create a sample receipt
 	receipt := domain.Receipt{
@@ -66,5 +66,5 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	assert.Equal(t, expectedPoints, points) // 5 + 10 + 5 + 3 + 2 + 0 + 3 = 28
 
 	// Assert that all expected mock methods were called
-	mockHelper.AssertExpectations(t)
+	mockRules.AssertExpectations(t)
 }
