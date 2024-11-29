@@ -1,5 +1,3 @@
-// Package http provides the HTTP handlers for receipt processing.
-// It integrates with the business logic layer and manages the API responses.
 package http
 
 import (
@@ -17,14 +15,27 @@ type ReceiptProcessHandler struct {
 	ReceiptService internalHttp.ReceiptService // Service interface for processing receipts and calculating points
 }
 
-// NewReceiptProcessHandler is a constructor function for creating a ReceiptProcessHandler instance.
+// NewReceiptProcessHandler creates and returns a new instance of ReceiptProcessHandler.
 // It takes a ReceiptService as a dependency, enabling proper dependency injection.
+//
+// Parameters:
+//   - service: The ReceiptService responsible for processing the receipt and calculating points.
+//
+// Returns:
+//   - A new instance of ReceiptProcessHandler with the provided ReceiptService.
 func NewReceiptProcessHandler(service internalHttp.ReceiptService) *ReceiptProcessHandler {
 	return &ReceiptProcessHandler{ReceiptService: service}
 }
 
 // ProcessReceipt handles HTTP POST requests to the `/receipt/process` route.
 // It validates the input, processes the receipt, and returns the result.
+//
+// Parameters:
+//   - c: The Gin context, which contains the HTTP request and response data.
+//
+// Returns:
+//   - A JSON response with either a 200 OK status and the receipt ID, or a 400 Bad Request if input validation fails,
+//     or a 500 Internal Server Error if processing the receipt fails.
 func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 	var receipt domain.Receipt // Variable to hold the parsed receipt from the request body
 

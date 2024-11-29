@@ -1,4 +1,3 @@
-// Package application contains the business logic for processing receipts.
 package application
 
 import (

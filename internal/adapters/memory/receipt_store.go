@@ -1,6 +1,3 @@
-// Package memory provides an in-memory implementation of the ReceiptStore interface.
-// This implementation is useful for testing or scenarios where persistent storage is not required.
-// For persistent storage, refer to the "repository/sql" package.
 package memory
 
 import (
@@ -17,6 +14,9 @@ type ReceiptStoreImpl struct {
 
 // NewReceiptStore creates and returns a new in-memory ReceiptStoreImpl instance.
 // The receipts map is initialized as an empty map.
+//
+// Returns:
+//   - A new instance of repository.ReceiptStore (which is *ReceiptStoreImpl).
 func NewReceiptStore() repository.ReceiptStore {
 	return &ReceiptStoreImpl{
 		receipts: make(map[string]domain.Receipt),
@@ -39,16 +39,16 @@ func (r *ReceiptStoreImpl) Save(receipt domain.Receipt) (string, error) {
 	return receiptID, nil
 }
 
-// Find retrieves a receipt by its unique ID.
+// Find retrieves a receipt from the in-memory store using the provided unique ID.
 //
 // Parameters:
-//   - id: The unique identifier of the receipt (currently an integer placeholder).
+//   - id: The unique identifier of the receipt to be retrieved.
 //
 // Returns:
-//   - result: A placeholder integer value (1 in this case).
-//   - err: An error, if any. This method is currently unimplemented.
+//   - The domain.Receipt associated with the provided ID.
+//   - An error, if any. Currently, no errors are returned, but this may be adjusted in the future.
 func (r *ReceiptStoreImpl) Find(id string) (domain.Receipt, error) {
-	// TODO: Implement actual lookup logic to retrieve a receipt by its unique ID.
+	// Retrieve the receipt from the map using the provided ID.
 	foundReceipt := r.receipts[id]
 	return foundReceipt, nil
 }

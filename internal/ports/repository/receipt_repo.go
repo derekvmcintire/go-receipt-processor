@@ -1,19 +1,18 @@
-// Package repository defines interfaces for data storage operations.
-// These interfaces abstract the underlying storage implementation, enabling
-// flexibility and easier testing by allowing dependency injection of different
-// storage backends (e.g., in-memory, database).
 package repository
 
 import "go-receipt-processor/internal/domain"
 
 // ReceiptStore defines the methods required for storing and retrieving receipts.
-// This interface allows different implementations, such as in-memory storage
-// or database-backed storage, to be used interchangeably.
+// Implementations of this interface provide the ability to persist and fetch receipt data,
+// supporting various storage backends such as in-memory or database-based solutions.
 type ReceiptStore interface {
-	// Save stores the given receipt and returns its unique ID or an error if the operation fails.
-	Save(receipt domain.Receipt) (string, error)
+	// Save stores the given receipt and returns:
+	//   - The unique ID of the saved receipt as a string.
+	//   - An error if the receipt could not be saved (e.g., due to storage issues).
+	Save(receipt domain.Receipt) (receiptID string, err error)
 
-	// Find retrieves a receipt by its unique ID. It returns the receipt's ID
-	// and an error if the receipt is not found or another issue occurs.
-	Find(id string) (domain.Receipt, error)
+	// Find retrieves a receipt by its unique ID and returns:
+	//   - The receipt corresponding to the given ID.
+	//   - An error if the receipt is not found or another issue occurs (e.g., database failure).
+	Find(id string) (receipt domain.Receipt, err error)
 }
