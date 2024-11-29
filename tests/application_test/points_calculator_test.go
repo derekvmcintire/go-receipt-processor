@@ -2,7 +2,6 @@ package application_test
 
 import (
 	"go-receipt-processor/internal/application"
-	"go-receipt-processor/internal/domain"
 	"go-receipt-processor/tests/local_mocks"
 	"testing"
 
