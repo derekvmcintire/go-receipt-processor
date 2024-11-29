@@ -3,7 +3,7 @@ package http_test
 import (
 	"fmt"
 	adaptersHttp "go-receipt-processor/internal/adapters/http"
-	"go-receipt-processor/tests/mocks"
+	"go-receipt-processor/tests/local_mocks"
 	externalHttp "net/http"
 	"net/http/httptest"
 	"testing"
@@ -14,7 +14,7 @@ import (
 
 func TestGetPointsHandler_Success(t *testing.T) {
 	// Arrange
-	mockService := new(mocks.MockReceiptService)
+	mockService := new(local_mocks.MockReceiptService)
 	mockService.On("GetPoints", "123").Return(100, nil) // Mock a successful return of 100 points
 
 	handler := adaptersHttp.NewGetReceiptPointsHandler(mockService)
@@ -40,7 +40,7 @@ func TestGetPointsHandler_Success(t *testing.T) {
 
 func TestGetPointsHandler_Error(t *testing.T) {
 	// Arrange
-	mockService := new(mocks.MockReceiptService)
+	mockService := new(local_mocks.MockReceiptService)
 	mockService.On("GetPoints", "123").Return(0, fmt.Errorf("receipt not found")) // Mock an error return
 
 	handler := adaptersHttp.NewGetReceiptPointsHandler(mockService)

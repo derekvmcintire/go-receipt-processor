@@ -23,8 +23,8 @@ func NewContainer() *Container {
 	return &Container{
 		// Initialize the ReceiptService with a PointsCalculator and a ReceiptStore implementation.
 		ReceiptService: application.NewReceiptService(
-			application.NewPointsCalculator(), // Initializes the points calculator service.
-			memory.NewReceiptStore(),          // Uses an in-memory implementation of the receipt store (for testing or demo).
+			application.NewPointsCalculator(application.NewPointsCalculatorHelper()), // Initializes the points calculator service.
+			memory.NewReceiptStore(), // Uses an in-memory implementation of the receipt store (for testing or demo).
 		),
 	}
 }

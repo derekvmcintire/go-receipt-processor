@@ -4,7 +4,7 @@ import (
 	"fmt"
 	adaptersHttp "go-receipt-processor/internal/adapters/http"
 	"go-receipt-processor/internal/domain"
-	"go-receipt-processor/tests/mocks"
+	"go-receipt-processor/tests/local_mocks"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -17,7 +17,7 @@ import (
 
 func TestProcessReceipt_Success(t *testing.T) {
 	// Arrange: Create a mock service and set expectations for a successful response
-	mockService := new(mocks.MockReceiptService)
+	mockService := new(local_mocks.MockReceiptService)
 	mockService.On("ProcessReceipt", mock.Anything).Return("receipt123", nil) // Mock successful receipt processing
 
 	// Create the handler and the router
@@ -71,7 +71,7 @@ func TestProcessReceipt_Success(t *testing.T) {
 
 func TestProcessReceipt_InvalidJSON(t *testing.T) {
 	// Arrange: Create a mock service (it won't be called because of invalid JSON)
-	mockService := new(mocks.MockReceiptService)
+	mockService := new(local_mocks.MockReceiptService)
 
 	// Create the handler and the router
 	handler := adaptersHttp.NewReceiptProcessHandler(mockService)
@@ -99,7 +99,7 @@ func TestProcessReceipt_InvalidJSON(t *testing.T) {
 
 func TestProcessReceipt_ServiceError(t *testing.T) {
 	// Arrange: Create a mock service and set expectations for an error case
-	mockService := new(mocks.MockReceiptService)
+	mockService := new(local_mocks.MockReceiptService)
 	mockService.On("ProcessReceipt", mock.Anything).Return("", fmt.Errorf("processing failed")) // Mock a failure
 
 	// Create the handler and the router
