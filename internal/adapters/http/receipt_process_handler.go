@@ -5,6 +5,7 @@ package http
 import (
 	"go-receipt-processor/internal/domain"                  // Package for domain models like Receipt
 	internalHttp "go-receipt-processor/internal/ports/http" // Service interface for receipt processing (aliased to avoid conflict with Gin)
+	"go-receipt-processor/internal/ports/http/response"     // Response interface for defining the shape of the return data
 	netHttp "net/http"                                      // Standard Go package for HTTP-related constants (aliased to avoid naming conflicts)
 
 	"github.com/gin-gonic/gin" // Web framework for building REST APIs in Go
@@ -42,8 +43,8 @@ func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 		return
 	}
 
-	// Respond with a 200 OK and return the receipt ID and calculated points
-	c.JSON(netHttp.StatusOK, gin.H{
-		"id": receiptID, // ID of the processed receipt
+	// Respond with a 200 OK and return the receipt ID in a structured response
+	c.JSON(netHttp.StatusOK, response.ReceiptProcessResponse{
+		ID: receiptID, // ID of the processed receipt
 	})
 }
