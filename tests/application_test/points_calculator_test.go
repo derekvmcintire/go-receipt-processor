@@ -14,14 +14,33 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	// Create a mock helper
 	mockHelper := new(mocks.MockPointsCalculatorHelpers)
 
+	// Set up mock point return values
+	mockRetailerNamePoints := 5
+	mockRoundDollarPoints := 10
+	mockMultipleOfQuarterPoints := 5
+	mockItemCountPoints := 3
+	mockItemDescriptionPoints := 2
+	mockOddDayPoints := 0
+	mockPurchaseTimePoints := 3
+
 	// Set up mock behavior for each helper function
-	mockHelper.On("AddPointsForRetailerName", mock.Anything).Return(5)
-	mockHelper.On("AddPointsForRoundDollarTotal", mock.Anything).Return(10, nil)
-	mockHelper.On("AddPointsForMultipleOfQuarter", mock.Anything).Return(5, nil)
-	mockHelper.On("AddPointsForItemCount", mock.Anything).Return(3)
-	mockHelper.On("AddPointsForItemDescriptions", mock.Anything).Return(2, nil)
-	mockHelper.On("AddPointsForOddDay", mock.Anything).Return(0)
-	mockHelper.On("AddPointsForAfternoonPurchaseTime", mock.Anything).Return(3)
+	mockHelper.On("AddPointsForRetailerName", mock.Anything).Return(mockRetailerNamePoints)
+	mockHelper.On("AddPointsForRoundDollarTotal", mock.Anything).Return(mockRoundDollarPoints, nil)
+	mockHelper.On("AddPointsForMultipleOfQuarter", mock.Anything).Return(mockMultipleOfQuarterPoints, nil)
+	mockHelper.On("AddPointsForItemCount", mock.Anything).Return(mockItemCountPoints)
+	mockHelper.On("AddPointsForItemDescriptions", mock.Anything).Return(mockItemDescriptionPoints, nil)
+	mockHelper.On("AddPointsForOddDay", mock.Anything).Return(mockOddDayPoints)
+	mockHelper.On("AddPointsForAfternoonPurchaseTime", mock.Anything).Return(mockPurchaseTimePoints)
+
+	// Set up expected points
+	expectedPoints := 0
+	expectedPoints += mockRetailerNamePoints
+	expectedPoints += mockRoundDollarPoints
+	expectedPoints += mockMultipleOfQuarterPoints
+	expectedPoints += mockItemCountPoints
+	expectedPoints += mockItemDescriptionPoints
+	expectedPoints += mockOddDayPoints
+	expectedPoints += mockPurchaseTimePoints
 
 	// Create a new PointsCalculator instance with the mocked helpers
 	calculator := application.NewPointsCalculator(mockHelper)
@@ -44,7 +63,7 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 
 	// Assert the points and no error
 	assert.NoError(t, err)
-	assert.Equal(t, 28, points) // 5 + 10 + 5 + 3 + 2 + 0 + 3 = 28
+	assert.Equal(t, expectedPoints, points) // 5 + 10 + 5 + 3 + 2 + 0 + 3 = 28
 
 	// Assert that all expected mock methods were called
 	mockHelper.AssertExpectations(t)
