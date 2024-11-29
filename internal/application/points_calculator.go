@@ -5,6 +5,7 @@ import (
 	"go-receipt-processor/internal/domain"
 	"go-receipt-processor/internal/ports/http"
 	"math"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -32,12 +33,19 @@ func (c *PointsCalculatorImpl) CalculatePoints(receipt domain.Receipt) (int, err
 		return 0, err
 	}
 
-	// Apply all rules to the receipt
+	// Apply all rules to the receipt and accumulate points
 	points += c.calculateRetailerNamePoints(receipt)
 	points += c.addPointsForRoundDollarTotal(receipt)
 	points += c.addPointsForMultipleOfQuarter(receipt)
 	points += c.addPointsForItemCount(receipt)
-	points += c.addPointsForItemDescriptions(receipt)
+
+	// Check for error in calculating item description points
+	itemPoints, err := c.addPointsForItemDescriptions(receipt)
+	if err != nil {
+		return 0, err // Return the error if item descriptions parsing fails
+	}
+	points += itemPoints
+
 	points += c.addPointsForOddDay(parsedDate)
 	points += c.addPointsForAfternoonPurchaseTime(parsedTime)
 
@@ -86,14 +94,21 @@ func (c *PointsCalculatorImpl) addPointsForItemCount(receipt domain.Receipt) int
 }
 
 // addPointsForItemDescriptions adds points for items with descriptions whose lengths are multiples of 3.
-func (c *PointsCalculatorImpl) addPointsForItemDescriptions(receipt domain.Receipt) int {
+// It returns an error if there is an issue parsing the price of any item.
+func (c *PointsCalculatorImpl) addPointsForItemDescriptions(receipt domain.Receipt) (int, error) {
 	points := 0
 	for _, item := range receipt.Items {
+		// Attempt to parse the item price
+		price, err := strconv.ParseFloat(item.Price, 64)
+		if err != nil {
+			return 0, fmt.Errorf("unable to convert item price '%s' to a float: %v", item.Price, err)
+		}
+		// Add points if the item description length is a multiple of 3
 		if len(strings.TrimSpace(item.ShortDescription))%3 == 0 {
-			points += int(math.Ceil(item.Price * 0.2))
+			points += int(math.Ceil(price * 0.2)) // Add points based on item price
 		}
 	}
-	return points
+	return points, nil
 }
 
 // addPointsForOddDay adds points if the purchase day is an odd number.
