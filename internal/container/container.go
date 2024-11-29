@@ -6,8 +6,10 @@ package container
 // portsHttp: defines the ports (interfaces) for services like `ReceiptService`
 import (
 	adaptersHttp "go-receipt-processor/internal/adapters/http"
+	"go-receipt-processor/internal/adapters/memory"
 	"go-receipt-processor/internal/application"
 	portsHttp "go-receipt-processor/internal/ports/http"
+	"go-receipt-processor/internal/ports/repository"
 )
 
 // The Container struct is used to hold instances of services like `ReceiptService`
@@ -19,6 +21,7 @@ type Container struct {
 	// by a concrete service (e.g., `ReceiptServiceImpl` in the `application` package).
 	ReceiptService   portsHttp.ReceiptService
 	PointsCalculator portsHttp.PointsCalculator
+	ReceiptStore     repository.ReceiptStore
 }
 
 // NewContainer is a function that creates and returns a new instance of the Container.
@@ -30,7 +33,7 @@ func NewContainer() *Container {
 	// The factory function `application.NewReceiptService()` creates a concrete
 	// instance of the service (e.g., `ReceiptServiceImpl`).
 	return &Container{
-		ReceiptService: application.NewReceiptService(application.NewPointsCalculator()),
+		ReceiptService: application.NewReceiptService(application.NewPointsCalculator(), memory.NewReceiptRepo()),
 	}
 }
 
