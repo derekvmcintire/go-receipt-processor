@@ -1,4 +1,4 @@
-# Receipt Processor Challenge
+# Receipt Processor Challenge (in Go this time)
 
 ## Summary
 
