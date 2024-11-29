@@ -6,7 +6,7 @@ package domain
 // It includes a short description and its price.
 type Item struct {
 	ShortDescription string  // A brief description of the item.
-	Price            float64 // The price of the item in currency units.
+	Price            float64 // The price of the item in currency units. @TODO update this to string and parse in the calculator when needed
 }
 
 // Receipt represents a customer's receipt and its associated data.

@@ -1,11 +1,7 @@
-// Package http defines interfaces for external interactions with the application.
-// These interfaces abstract key functionalities, such as calculating points,
-// enabling loose coupling between components and easier testing.
 package http
 
 import (
 	"go-receipt-processor/internal/domain"
-	"time"
 )
 
 // PointsCalculator defines the method required for calculating points based on a receipt.
