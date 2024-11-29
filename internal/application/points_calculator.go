@@ -1,4 +1,3 @@
-// points_calculator_impl.go
 package application
 
 import (
@@ -8,11 +7,15 @@ import (
 
 // PointsCalculatorImpl implements the PointsCalculator interface,
 // responsible for calculating points based on receipt data.
-type PointsCalculatorImpl struct{}
+type PointsCalculatorImpl struct {
+	helpers http.PointsCalculatorRules // Dependency injection of helper methods
+}
 
 // NewPointsCalculator creates and returns a new instance of PointsCalculatorImpl.
-func NewPointsCalculator() http.PointsCalculator {
-	return &PointsCalculatorImpl{}
+func NewPointsCalculator(helpers http.PointsCalculatorRules) http.PointsCalculator {
+	return &PointsCalculatorImpl{
+		helpers: helpers,
+	}
 }
 
 // CalculatePoints calculates the total points for a receipt based on specific business rules.
@@ -33,37 +36,37 @@ func (c *PointsCalculatorImpl) CalculatePoints(receipt domain.Receipt) (int, err
 	}
 
 	// Rule 1.
-	points += CalculateAlphaNumericRetailerNamePoints(receipt)
+	points += c.helpers.AddPointsForRetailerName(receipt)
 
 	// Rule 2.
-	roundDollarPoints, err := AddPointsForRoundDollarTotal(receipt)
+	roundDollarPoints, err := c.helpers.AddPointsForRoundDollarTotal(receipt)
 	if err != nil {
 		return 0, err
 	}
 	points += roundDollarPoints
 
 	// Rule 3.
-	multipleOfQuarterPoints, err := AddPointsForMultipleOfQuarter(receipt)
+	multipleOfQuarterPoints, err := c.helpers.AddPointsForMultipleOfQuarter(receipt)
 	if err != nil {
 		return 0, err
 	}
 	points += multipleOfQuarterPoints
 
 	// Rule 4.
-	points += AddPointsForItemCount(receipt)
+	points += c.helpers.AddPointsForItemCount(receipt)
 
 	// Rule 5.
-	itemPoints, err := AddPointsForItemDescriptions(receipt)
+	itemPoints, err := c.helpers.AddPointsForItemDescriptions(receipt)
 	if err != nil {
 		return 0, err
 	}
 	points += itemPoints
 
 	// Rule 6.
-	points += AddPointsForOddDay(parsedDateAndTime)
+	points += c.helpers.AddPointsForOddDay(parsedDateAndTime)
 
 	// Rule 7.
-	points += AddPointsForAfternoonPurchaseTime(parsedDateAndTime)
+	points += c.helpers.AddPointsForAfternoonPurchaseTime(parsedDateAndTime)
 
 	return points, nil
 }
