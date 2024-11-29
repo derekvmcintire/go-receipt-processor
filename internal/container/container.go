@@ -8,16 +8,13 @@ import (
 	"go-receipt-processor/internal/adapters/memory"
 	"go-receipt-processor/internal/application"
 	portsHttp "go-receipt-processor/internal/ports/http"
-	"go-receipt-processor/internal/ports/repository"
 )
 
 // Container holds the application's dependencies, including services, repositories,
 // and any other components needed to handle business logic and request processing.
 // It centralizes the creation and management of these dependencies for ease of testing and configuration.
 type Container struct {
-	ReceiptService   portsHttp.ReceiptService   // Service for processing receipts.
-	PointsCalculator portsHttp.PointsCalculator // Service for calculating points based on receipts.
-	ReceiptStore     repository.ReceiptStore    // Repository for storing and retrieving receipt data.
+	ReceiptService portsHttp.ReceiptService // Service for processing receipts.
 }
 
 // NewContainer initializes and returns a new Container instance.
@@ -36,4 +33,11 @@ func NewContainer() *Container {
 // with the ReceiptService to handle business logic.
 func (c *Container) NewReceiptProcessHandler() *adaptersHttp.ReceiptProcessHandler {
 	return adaptersHttp.NewReceiptProcessHandler(c.ReceiptService)
+}
+
+// NewReceiptProcessHandler creates and returns a new handler for processing receipts.
+// This handler is responsible for handling the `POST /receipt/process` route and interacts
+// with the ReceiptService to handle business logic.
+func (c *Container) NewGetReceiptPointsHandler() *adaptersHttp.GetReceiptPointsHandler {
+	return adaptersHttp.NewGetReceiptPointsHandler(c.ReceiptService)
 }

@@ -15,5 +15,5 @@ type ReceiptStore interface {
 
 	// Find retrieves a receipt by its unique ID. It returns the receipt's ID
 	// and an error if the receipt is not found or another issue occurs.
-	Find(id int) (int, error)
+	Find(id string) (domain.Receipt, error)
 }

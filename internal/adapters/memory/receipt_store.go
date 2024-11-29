@@ -47,7 +47,8 @@ func (r *ReceiptStoreImpl) Save(receipt domain.Receipt) (string, error) {
 // Returns:
 //   - result: A placeholder integer value (1 in this case).
 //   - err: An error, if any. This method is currently unimplemented.
-func (r *ReceiptStoreImpl) Find(id int) (int, error) {
+func (r *ReceiptStoreImpl) Find(id string) (domain.Receipt, error) {
 	// TODO: Implement actual lookup logic to retrieve a receipt by its unique ID.
-	return 1, nil
+	foundReceipt := r.receipts[id]
+	return foundReceipt, nil
 }

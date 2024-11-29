@@ -21,6 +21,10 @@ func main() {
 	// The handler is retrieved from the container to ensure proper dependency injection.
 	g.POST("/receipt/process", c.NewReceiptProcessHandler().ProcessReceipt)
 
+	// Register the route to get points by receipt id.
+	// The handler is retrieved from the container to ensure proper dependency injection.
+	g.GET("/receipt/:id/points", c.NewGetReceiptPointsHandler().GetPoints)
+
 	// Start the Gin HTTP server on port 8080.
 	// This will block until the application is terminated or the server fails to start.
 	g.Run(":8080")

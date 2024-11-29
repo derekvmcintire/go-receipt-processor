@@ -55,3 +55,16 @@ func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, err
 
 	return receiptID, nil
 }
+
+func (s *ReceiptServiceImpl) GetPoints(id string) (int, error) {
+
+	// Save the receipt to the repository and retrieve its unique ID.
+	receipt, err := s.ReceiptStore.Find(id)
+	if err != nil {
+		return 0, fmt.Errorf("failed to find receipt: %v", err)
+	}
+
+	points := receipt.Points
+
+	return points, nil
+}
