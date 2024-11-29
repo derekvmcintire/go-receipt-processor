@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 // PointsCalculatorImpl implements the PointsCalculator interface.
@@ -34,12 +35,26 @@ func (c *PointsCalculatorImpl) CalculatePoints(receipt domain.Receipt) (int, err
 	}
 
 	// Apply all rules to the receipt and accumulate points
-	points += c.calculateRetailerNamePoints(receipt)
-	points += c.addPointsForRoundDollarTotal(receipt)
-	points += c.addPointsForMultipleOfQuarter(receipt)
+	points += c.calculateAlphaNumericRetailerNamePoints(receipt)
+
+	roundDollarPoints, err := c.addPointsForRoundDollarTotal(receipt)
+
+	if err != nil {
+		return 0, err // Return the error if item descriptions parsing fails
+	}
+
+	points += roundDollarPoints
+
+	multipleOfQuarterPoints, err := c.addPointsForMultipleOfQuarter(receipt)
+
+	if err != nil {
+		return 0, err // Return the error if item descriptions parsing fails
+	}
+
+	points += multipleOfQuarterPoints
+
 	points += c.addPointsForItemCount(receipt)
 
-	// Check for error in calculating item description points
 	itemPoints, err := c.addPointsForItemDescriptions(receipt)
 	if err != nil {
 		return 0, err // Return the error if item descriptions parsing fails
@@ -67,25 +82,42 @@ func (c *PointsCalculatorImpl) parseDateTime(receipt domain.Receipt) (time.Time,
 	return parsedDate, parsedTime, nil
 }
 
-// calculateRetailerNamePoints adds points based on the retailer name length.
-func (c *PointsCalculatorImpl) calculateRetailerNamePoints(receipt domain.Receipt) int {
-	return len(strings.ReplaceAll(receipt.Retailer, " ", ""))
+// calculateAlphaNumericRetailerNamePoints adds points based on the retailer name length.
+func (c *PointsCalculatorImpl) calculateAlphaNumericRetailerNamePoints(receipt domain.Receipt) int {
+	cleanedName := ""
+	for _, ch := range receipt.Retailer {
+		if unicode.IsLetter(ch) || unicode.IsDigit(ch) {
+			cleanedName += string(ch)
+		}
+	}
+	fmt.Println("Cleaned retailer name:", cleanedName) // Debug log
+	return len(cleanedName)
 }
 
 // addPointsForRoundDollarTotal adds points if the total is a round dollar amount (no cents).
-func (c *PointsCalculatorImpl) addPointsForRoundDollarTotal(receipt domain.Receipt) int {
-	if receipt.Total == math.Floor(receipt.Total) {
-		return 50
+func (c *PointsCalculatorImpl) addPointsForRoundDollarTotal(receipt domain.Receipt) (int, error) {
+	total, err := strconv.ParseFloat(receipt.Total, 64)
+	if err != nil {
+		return 0, fmt.Errorf("unable to convert total '%s' to a float: %v", receipt.Total, err)
 	}
-	return 0
+
+	if total == math.Floor(total) {
+		return 50, nil
+	}
+	return 0, nil
 }
 
 // addPointsForMultipleOfQuarter adds points if the total is a multiple of 0.25.
-func (c *PointsCalculatorImpl) addPointsForMultipleOfQuarter(receipt domain.Receipt) int {
-	if int(receipt.Total*100)%25 == 0 {
-		return 25
+func (c *PointsCalculatorImpl) addPointsForMultipleOfQuarter(receipt domain.Receipt) (int, error) {
+	total, err := strconv.ParseFloat(receipt.Total, 64)
+	if err != nil {
+		return 0, fmt.Errorf("unable to convert total '%s' to a float: %v", receipt.Total, err)
 	}
-	return 0
+
+	if int(total*100)%25 == 0 {
+		return 25, nil
+	}
+	return 0, nil
 }
 
 // addPointsForItemCount adds points for every two items on the receipt.
