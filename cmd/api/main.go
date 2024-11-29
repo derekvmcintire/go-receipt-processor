@@ -1,3 +1,5 @@
+// Package main serves as the entry point of the application.
+// It sets up the necessary infrastructure, such as dependency injection and HTTP routing.
 package main
 
 import (
@@ -6,17 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// main is the entry point of the application.
+// It initializes the dependency container, sets up routes, and starts the HTTP server.
 func main() {
-	// Create the container that manages all dependencies
+	// Initialize the dependency container, which manages all application services and handlers.
 	c := container.NewContainer()
 
-	// Set up Gin router
+	// Create a new Gin router instance for handling HTTP requests.
 	g := gin.Default()
 
-	// Register routes and pass the handlers from the container
+	// Register the route for processing receipts.
+	// The handler is retrieved from the container to ensure proper dependency injection.
 	g.POST("/receipt/process", c.NewReceiptProcessHandler().ProcessReceipt)
 
-	// Run the Gin server
+	// Start the Gin HTTP server on port 8080.
+	// This will block until the application is terminated or the server fails to start.
 	g.Run(":8080")
-
 }

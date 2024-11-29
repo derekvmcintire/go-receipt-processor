@@ -1,9 +1,8 @@
+// Package container provides dependency injection for the receipt processing application.
+// It initializes and wires together services, repositories, and handlers to ensure proper
+// separation of concerns and modular design.
 package container
 
-// Importing necessary packages
-// adaptersHttp: the HTTP-related handlers in the `adapters/http` package
-// application: the business logic layer (the `application` package)
-// portsHttp: defines the ports (interfaces) for services like `ReceiptService`
 import (
 	adaptersHttp "go-receipt-processor/internal/adapters/http"
 	"go-receipt-processor/internal/adapters/memory"
@@ -12,40 +11,29 @@ import (
 	"go-receipt-processor/internal/ports/repository"
 )
 
-// The Container struct is used to hold instances of services like `ReceiptService`
-// and provide them to the various parts of the application (handlers, etc.)
-// The Container is responsible for the creation and wiring of dependencies.
+// Container holds the application's dependencies, including services, repositories,
+// and any other components needed to handle business logic and request processing.
+// It centralizes the creation and management of these dependencies for ease of testing and configuration.
 type Container struct {
-	// ReceiptService is the service responsible for processing receipts.
-	// It's an interface defined in the `portsHttp` package, and it is implemented
-	// by a concrete service (e.g., `ReceiptServiceImpl` in the `application` package).
-	ReceiptService   portsHttp.ReceiptService
-	PointsCalculator portsHttp.PointsCalculator
-	ReceiptStore     repository.ReceiptStore
+	ReceiptService   portsHttp.ReceiptService   // Service for processing receipts.
+	PointsCalculator portsHttp.PointsCalculator // Service for calculating points based on receipts.
+	ReceiptStore     repository.ReceiptStore    // Repository for storing and retrieving receipt data.
 }
 
-// NewContainer is a function that creates and returns a new instance of the Container.
-// It initializes the services (e.g., `ReceiptService`) by calling the factory functions
-// from the `application` package.
+// NewContainer initializes and returns a new Container instance.
+// It wires together the services and repositories by instantiating their dependencies.
 func NewContainer() *Container {
-	// Here we're creating a new instance of the Container and initializing the
-	// ReceiptService using a factory function from the `application` package.
-	// The factory function `application.NewReceiptService()` creates a concrete
-	// instance of the service (e.g., `ReceiptServiceImpl`).
 	return &Container{
-		ReceiptService: application.NewReceiptService(application.NewPointsCalculator(), memory.NewReceiptRepo()),
+		ReceiptService: application.NewReceiptService(
+			application.NewPointsCalculator(), // Initializes the points calculator service.
+			memory.NewReceiptStore(),          // Uses an in-memory implementation of the receipt store.
+		),
 	}
 }
 
-// NewReceiptProcessHandler is a method on the Container that creates a new handler
-// for the `POST /receipt/process` route. This handler is responsible for processing
-// the receipt and interacting with the `ReceiptService` to handle the business logic.
+// NewReceiptProcessHandler creates and returns a new handler for processing receipts.
+// This handler is responsible for handling the `POST /receipt/process` route and interacts
+// with the ReceiptService to handle business logic.
 func (c *Container) NewReceiptProcessHandler() *adaptersHttp.ReceiptProcessHandler {
-	// This method uses the `NewReceiptProcessHandler` function from the `adaptersHttp` package
-	// to create a new `ReceiptProcessHandler`. It injects the `ReceiptService` dependency
-	// into the handler when creating it.
-	//
-	// `ReceiptProcessHandler` is the handler that will handle the actual HTTP request
-	// for processing a receipt. This is where the request data is passed to the service layer.
 	return adaptersHttp.NewReceiptProcessHandler(c.ReceiptService)
 }
