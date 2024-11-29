@@ -1,5 +1,3 @@
-// Package domain defines the core entities used in the receipt processing application.
-// These domain models represent the essential data structures shared across the application.
 package domain
 
 // Item represents an individual item on a receipt.

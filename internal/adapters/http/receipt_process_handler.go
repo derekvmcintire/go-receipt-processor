@@ -2,7 +2,7 @@ package http
 
 import (
 	"go-receipt-processor/internal/domain"                  // Package for domain models like Receipt
-	internalHttp "go-receipt-processor/internal/ports/http" // Service interface for receipt processing (aliased to avoid conflict with Gin)
+	internalHttp "go-receipt-processor/internal/ports/core" // Service interface for receipt processing (aliased to avoid conflict with Gin)
 	"go-receipt-processor/internal/ports/http/response"     // Response interface for defining the shape of the return data
 	netHttp "net/http"                                      // Standard Go package for HTTP-related constants (aliased to avoid naming conflicts)
 

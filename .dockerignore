@@ -1,0 +1,17 @@
+# Ignore Go build artifacts
+bin/
+*.exe
+*.out
+*.test
+
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore dependencies directories
+vendor/
+
+# Ignore Dockerfile and other configuration files that are not needed in the container
+Dockerfile
+.dockerignore
+Makefile

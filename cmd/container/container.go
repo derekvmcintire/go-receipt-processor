@@ -4,7 +4,7 @@ import (
 	adaptersHttp "go-receipt-processor/internal/adapters/http" // Package for HTTP handlers interacting with the ReceiptService
 	"go-receipt-processor/internal/adapters/memory"            // In-memory implementation of the ReceiptStore for testing and demo purposes
 	"go-receipt-processor/internal/application"                // Contains core business logic for receipt processing and points calculation
-	portsHttp "go-receipt-processor/internal/ports/http"       // HTTP service interfaces for the application, including receipt processing
+	portsHttp "go-receipt-processor/internal/ports/core"       // HTTP service interfaces for the application, including receipt processing
 )
 
 // Container holds the application's dependencies, including services, repositories,
