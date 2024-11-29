@@ -63,7 +63,7 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 
 	// Assert the points and no error
 	assert.NoError(t, err)
-	assert.Equal(t, expectedPoints, points) // 5 + 10 + 5 + 3 + 2 + 0 + 3 = 28
+	assert.Equal(t, expectedPoints, points)
 
 	// Assert that all expected mock methods were called
 	mockRules.AssertExpectations(t)
