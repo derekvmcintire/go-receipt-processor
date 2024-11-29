@@ -1,7 +1,7 @@
 package http
 
 import (
-	internalHttp "go-receipt-processor/internal/ports/http" // Service interface for retrieving receipt points
+	internalHttp "go-receipt-processor/internal/ports/core" // Service interface for retrieving receipt points
 	"go-receipt-processor/internal/ports/http/response"     // Response struct for returning receipt points in a standardized format
 	netHttp "net/http"                                      // Standard Go package for HTTP-related constants (aliased to avoid naming conflicts)
 

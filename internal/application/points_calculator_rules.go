@@ -1,10 +1,9 @@
-// points_calculator_helpers.go
 package application
 
 import (
 	"fmt"
 	"go-receipt-processor/internal/domain"
-	"go-receipt-processor/internal/ports/http"
+	"go-receipt-processor/internal/ports/core"
 	"math"
 	"strconv"
 	"strings"

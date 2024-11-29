@@ -2,7 +2,8 @@ package application
 
 import (
 	"go-receipt-processor/internal/domain"
-	"go-receipt-processor/internal/ports/http"
+	"go-receipt-processor/internal/ports/core"
+	"go-receipt-processor/pkg/utils"
 )
 
 // PointsCalculatorImpl implements the PointsCalculator interface,
@@ -30,7 +31,7 @@ func (c *PointsCalculatorImpl) CalculatePoints(receipt domain.Receipt) (int, err
 	points := 0
 
 	// Parse purchase date and time from the receipt.
-	parsedDateAndTime, err := ParseReceiptDateTime(receipt)
+	parsedDateAndTime, err := utils.ParseReceiptDateTime(receipt)
 	if err != nil {
 		return 0, err // Return error if parsing fails
 	}

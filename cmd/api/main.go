@@ -3,7 +3,7 @@
 package main
 
 import (
-	"go-receipt-processor/internal/container"
+	"go-receipt-processor/cmd/container"
 
 	"github.com/gin-gonic/gin"
 )

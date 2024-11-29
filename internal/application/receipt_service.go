@@ -3,7 +3,7 @@ package application
 import (
 	"fmt"
 	"go-receipt-processor/internal/domain"           // Package containing domain models like Receipt
-	"go-receipt-processor/internal/ports/http"       // Package containing the PointsCalculator interface for calculating receipt points
+	"go-receipt-processor/internal/ports/core"       // Package containing the PointsCalculator interface for calculating receipt points
 	"go-receipt-processor/internal/ports/repository" // Package containing the ReceiptStore interface for saving and retrieving receipts
 )
 
