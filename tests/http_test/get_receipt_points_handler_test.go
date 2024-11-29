@@ -3,33 +3,18 @@ package http_test
 import (
 	"fmt"
 	adaptersHttp "go-receipt-processor/internal/adapters/http"
-	"go-receipt-processor/internal/domain"
+	"go-receipt-processor/tests/mocks"
 	externalHttp "net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
-
-// MockReceiptService is a mock of the ReceiptService interface for unit testing
-type MockReceiptService struct {
-	mock.Mock
-}
-
-func (m *MockReceiptService) GetPoints(receiptID string) (int, error) {
-	args := m.Called(receiptID)
-	return args.Int(0), args.Error(1)
-}
-
-func (m *MockReceiptService) ProcessReceipt(receipt domain.Receipt) (string, error) {
-	return "1", nil
-}
 
 func TestGetPointsHandler_Success(t *testing.T) {
 	// Arrange
-	mockService := new(MockReceiptService)
+	mockService := new(mocks.MockReceiptService)
 	mockService.On("GetPoints", "123").Return(100, nil) // Mock a successful return of 100 points
 
 	handler := adaptersHttp.NewGetReceiptPointsHandler(mockService)
@@ -55,7 +40,7 @@ func TestGetPointsHandler_Success(t *testing.T) {
 
 func TestGetPointsHandler_Error(t *testing.T) {
 	// Arrange
-	mockService := new(MockReceiptService)
+	mockService := new(mocks.MockReceiptService)
 	mockService.On("GetPoints", "123").Return(0, fmt.Errorf("receipt not found")) // Mock an error return
 
 	handler := adaptersHttp.NewGetReceiptPointsHandler(mockService)
