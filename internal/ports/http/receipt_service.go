@@ -8,5 +8,5 @@ import "go-receipt-processor/internal/domain"
 type ReceiptService interface {
 	// ProcessReceipt processes a receipt and calculates points.
 	// It returns the receipt ID, the calculated points, and any error encountered.
-	ProcessReceipt(receipt domain.Receipt) (string, int, error)
+	ProcessReceipt(receipt domain.Receipt) (string, error)
 }

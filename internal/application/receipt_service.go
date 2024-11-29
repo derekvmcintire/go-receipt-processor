@@ -36,12 +36,12 @@ func NewReceiptService(c http.PointsCalculator, rs repository.ReceiptStore) http
 //   - receiptID: A unique identifier for the processed receipt.
 //   - points: The calculated points for the receipt.
 //   - err: An error if processing or saving fails.
-func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, int, error) {
+func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, error) {
 
 	// Calculate points using the PointsCalculator.
 	points, err := s.PointsCalculator.CalculatePoints(receipt)
 	if err != nil {
-		return "", 0, fmt.Errorf("invalid purchase time format: %v", err)
+		return "", fmt.Errorf("invalid purchase time format: %v", err)
 	}
 
 	// Assign calculated points to the receipt.
@@ -50,8 +50,8 @@ func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, int
 	// Save the receipt to the repository and retrieve its unique ID.
 	receiptID, err := s.ReceiptStore.Save(receipt)
 	if err != nil {
-		return "", 0, fmt.Errorf("failed to insert receipt: %v", err)
+		return "", fmt.Errorf("failed to insert receipt: %v", err)
 	}
 
-	return receiptID, points, nil
+	return receiptID, nil
 }

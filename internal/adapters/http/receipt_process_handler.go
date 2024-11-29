@@ -35,7 +35,7 @@ func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 	}
 
 	// Call the service to process the receipt and calculate points
-	receiptID, points, err := h.ReceiptService.ProcessReceipt(receipt)
+	receiptID, err := h.ReceiptService.ProcessReceipt(receipt)
 	if err != nil {
 		// Respond with a 500 Internal Server Error if processing fails
 		c.JSON(netHttp.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -44,7 +44,6 @@ func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 
 	// Respond with a 200 OK and return the receipt ID and calculated points
 	c.JSON(netHttp.StatusOK, gin.H{
-		"id":     receiptID, // ID of the processed receipt
-		"points": points,    // Calculated points for the receipt
+		"id": receiptID, // ID of the processed receipt
 	})
 }

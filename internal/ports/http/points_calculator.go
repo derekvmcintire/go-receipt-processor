@@ -5,7 +5,6 @@ package http
 
 import (
 	"go-receipt-processor/internal/domain"
-	"time"
 )
 
 // PointsCalculator defines the method required for calculating points based on a receipt.
