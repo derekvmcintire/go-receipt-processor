@@ -1,5 +1,4 @@
-// mock_points_calculator_helpers.go
-package mocks
+package local_mocks
 
 import (
 	"go-receipt-processor/internal/domain"

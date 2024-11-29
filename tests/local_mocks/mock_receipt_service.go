@@ -1,4 +1,4 @@
-package mocks
+package local_mocks
 
 import (
 	"go-receipt-processor/internal/domain"

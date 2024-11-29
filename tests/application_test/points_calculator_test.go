@@ -3,7 +3,7 @@ package application_test
 import (
 	"go-receipt-processor/internal/application"
 	"go-receipt-processor/internal/domain"
-	"go-receipt-processor/tests/mocks"
+	"go-receipt-processor/tests/local_mocks"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +12,7 @@ import (
 
 func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	// Create a mock helper
-	mockRules := new(mocks.MockPointsCalculatorRules)
+	mockRules := new(local_mocks.MockPointsCalculatorRules)
 
 	// Set up mock point return values
 	mockRetailerNamePoints := 5
@@ -45,21 +45,8 @@ func TestCalculatePoints_MockedHelpers(t *testing.T) {
 	// Create a new PointsCalculator instance with the mocked helpers
 	calculator := application.NewPointsCalculator(mockRules)
 
-	// Create a sample receipt
-	receipt := domain.Receipt{
-		Retailer:     "StoreABC",
-		PurchaseDate: "2024-11-29",
-		PurchaseTime: "15:30",
-		Items: []domain.Item{
-			{ShortDescription: "Item 1", Price: "5.00"},
-			{ShortDescription: "Item 2", Price: "5.00"},
-		},
-		Total:  "10.00",
-		Points: 0,
-	}
-
 	// Calculate points
-	points, err := calculator.CalculatePoints(receipt)
+	points, err := calculator.CalculatePoints(local_mocks.MockReceipt)
 
 	// Assert the points and no error
 	assert.NoError(t, err)
