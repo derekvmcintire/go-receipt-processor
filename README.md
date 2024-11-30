@@ -15,8 +15,7 @@ This API was built to fulfill a code challenge for [Fetch Rewards](https://fetch
 - [Go](https://go.dev/): Written with Go
 - [Gin](https://gin-gonic.com/): HTTP web framework for Go, used to define routes, handle HTTP requests, and build RESTful APIs.
 - [Docker](https://www.docker.com/): The app is available in a Docker container via `make docker-run`.
-- [Testify](https://pkg.go.dev/github.com/stretchr/testify): A set of Go testing utilities that simplify writing unit tests with assertions, mocking, and suite-based testing.
-- **In-memory Storage**: The application uses an in-memory map for data storage.
+- [Testify](https://pkg.go.dev/github.com/stretchr/testify): A set of Go testing utilities I used for writing unit tests
 
 ---
 
