@@ -90,7 +90,7 @@ func TestProcessReceipt_InvalidJSON(t *testing.T) {
 
 	// Assert: Verify that the response status is 400 Bad Request for invalid JSON
 	assert.Equal(t, http.StatusBadRequest, w.Code) // Should return 400 Bad Request
-	expectedResponse := `{"error":"invalid character '\"' after object key:value pair"}`
+	expectedResponse := `{"details":"invalid character '\"' after object key:value pair", "error":"Invalid request payload"}`
 	assert.JSONEq(t, expectedResponse, w.Body.String()) // Check for proper error message
 
 	// Verify that the mock service was not called
