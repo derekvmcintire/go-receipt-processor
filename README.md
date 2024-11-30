@@ -13,9 +13,9 @@ This API was built to fulfill a code challenge for [Fetch Rewards](https://fetch
 ### **Technology Used**
 
 - [Go](https://go.dev/): Written with Go
-- [Gin](https://gin-gonic.com/): HTTP web framework for Go, used to define routes, handle HTTP requests, and build RESTful APIs.  
-- [Docker](https://www.docker.com/): The app is available in a Docker container via `make docker-run`.  
-- [Testify](https://pkg.go.dev/github.com/stretchr/testify): A set of Go testing utilities that simplify writing unit tests with assertions, mocking, and suite-based testing.  
+- [Gin](https://gin-gonic.com/): HTTP web framework for Go, used to define routes, handle HTTP requests, and build RESTful APIs.
+- [Docker](https://www.docker.com/): The app is available in a Docker container via `make docker-run`.
+- [Testify](https://pkg.go.dev/github.com/stretchr/testify): A set of Go testing utilities that simplify writing unit tests with assertions, mocking, and suite-based testing.
 - **In-memory Storage**: The application uses an in-memory map for data storage.
 
 ---
@@ -345,39 +345,41 @@ Hexagonal Architecture, also known as the **Ports and Adapters Architecture**, i
 │ │   └── main.go
 │ ├── container/
 │ │   └── container.go
-│
+│ │   │
 ├── internal/
 │ ├── adapters/
 │ │   ├── http/
 │ │   │   └── get_receipt_points_handler.go
 │ │   │   └── receipt_process_handler.go
 │ │   ├── memory/
-│ │       └── receipt_store.go
+│ │   │   └── receipt_store.go
 │ ├── application/
 │ │   └── points_calculator_rules.go
 │ │   └── points_calculator.go
+│ │   └── receipt_service.go
 │ ├── domain/
 │ │   └── receipt.go
 │ ├── ports/
+│ │   ├── core/
+│ │   │   └── points_calculator.go
+│ │   │   └── points_rules.go
+│ │   │   └── receipt_service.go
 │ │   ├── http/
 │ │   │   └── response/
 │ │   │       └── get_receipt_points_response.go
 │ │   │       └── process_receipt_response.go
 │ │   ├── repository/
-│ │       └── receipt_repository.go
-│ │   ├── core/
-│ │       └── points_calculator.go
-│ │       └── receipt_service.go
-│
+│ │   │   └── receipt_repository.go
+│ │   │
 ├── pkg/
 │ └── utils/
-│     └── receipt_date_time.go
-│
+│ │   └── receipt_date_time.go
+│ │   │
 ├── test/
 │ ├── application/
 │ │   ├── rules/
-│ │       └── item_count_rule_test.go
-│ │       └── ...remaining rule tests
+│ │   │   └── item_count_rule_test.go
+│ │   │   └── ...remaining rule tests
 │ │   ├── points_calculator_test.go
 │ │   ├── receipt_service_test.go
 │ ├── adapters/

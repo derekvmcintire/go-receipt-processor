@@ -3,7 +3,7 @@ package application
 import (
 	"fmt"
 	"go-receipt-processor/internal/domain"           // Package containing domain models like Receipt
-	"go-receipt-processor/internal/ports/core"       // Package containing the PointsCalculator interface for calculating receipt points
+	http "go-receipt-processor/internal/ports/core"  // Package containing the PointsCalculator interface for calculating receipt points
 	"go-receipt-processor/internal/ports/repository" // Package containing the ReceiptStore interface for saving and retrieving receipts
 )
 
@@ -41,7 +41,7 @@ func (s *ReceiptServiceImpl) ProcessReceipt(receipt domain.Receipt) (string, err
 	points, err := s.PointsCalculator.CalculatePoints(receipt)
 	if err != nil {
 		// If an error occurs during points calculation, return an error with a message.
-		return "", fmt.Errorf("invalid purchase time format: %v", err)
+		return "", fmt.Errorf("unable to process receipt: %v", err)
 	}
 
 	// Assign the calculated points to the receipt.

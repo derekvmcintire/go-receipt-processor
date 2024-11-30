@@ -41,8 +41,8 @@ func (h *ReceiptProcessHandler) ProcessReceipt(c *gin.Context) {
 
 	// Attempt to parse the JSON body into the `receipt` struct
 	if err := c.ShouldBindJSON(&receipt); err != nil {
-		// Respond with a 400 Bad Request if JSON binding fails
-		c.JSON(netHttp.StatusBadRequest, gin.H{"error": err.Error()})
+		// return 400 bad request if bindingJSON fails
+		c.JSON(netHttp.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
 		return
 	}
 

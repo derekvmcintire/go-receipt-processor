@@ -1,20 +1,16 @@
 package domain
 
-// Item represents an individual item on a receipt.
-// It includes a short description and its price.
 type Item struct {
-	ShortDescription string // A brief description of the item.
-	Price            string // The price of the item in currency units.
+	ShortDescription string `json:"shortDescription" binding:"required"` // JSON key mapping and validation
+	Price            string `json:"price" binding:"required"`            // Mark field as required
 }
 
-// Receipt represents a customer's receipt and its associated data.
-// It includes details about the retailer, purchase information, items, total amount, and points.
 type Receipt struct {
-	ID           string // A unique identifier for the receipt.
-	Retailer     string // The name of the retailer where the receipt was issued.
-	PurchaseDate string // The date of purchase in YYYY-MM-DD format.
-	PurchaseTime string // The time of purchase in HH:MM format (24-hour clock).
-	Items        []Item // A list of items purchased, represented by the Item struct.
-	Total        string // The total amount for the receipt in currency units.
-	Points       int    // The points calculated based on the receipt's data.
+	ID           string `json:"id"`                                     // Optional, not marked as required
+	Retailer     string `json:"retailer" binding:"required"`            // Required field
+	PurchaseDate string `json:"purchaseDate" binding:"required"`        // Required field
+	PurchaseTime string `json:"purchaseTime" binding:"required"`        // Required field
+	Items        []Item `json:"items" binding:"required,dive,required"` // Ensure `items` is not empty and each item is validated
+	Total        string `json:"total" binding:"required"`               // Required field
+	Points       int    `json:"points"`                                 // Optional, likely calculated later
 }
