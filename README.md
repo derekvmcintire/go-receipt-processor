@@ -345,14 +345,14 @@ Hexagonal Architecture, also known as the **Ports and Adapters Architecture**, i
 │ │   └── main.go
 │ ├── container/
 │ │   └── container.go
-│ │
+│ │   │
 ├── internal/
 │ ├── adapters/
 │ │   ├── http/
 │ │   │   └── get_receipt_points_handler.go
 │ │   │   └── receipt_process_handler.go
 │ │   ├── memory/
-│ │       └── receipt_store.go
+│ │   │   └── receipt_store.go
 │ ├── application/
 │ │   └── points_calculator_rules.go
 │ │   └── points_calculator.go
@@ -369,17 +369,17 @@ Hexagonal Architecture, also known as the **Ports and Adapters Architecture**, i
 │ │   │       └── get_receipt_points_response.go
 │ │   │       └── process_receipt_response.go
 │ │   ├── repository/
-│ │       └── receipt_repository.go
-│ │
+│ │   │   └── receipt_repository.go
+│ │   │
 ├── pkg/
 │ └── utils/
 │ │   └── receipt_date_time.go
-│ │
+│ │   │
 ├── test/
 │ ├── application/
 │ │   ├── rules/
-│ │       └── item_count_rule_test.go
-│ │       └── ...remaining rule tests
+│ │   │   └── item_count_rule_test.go
+│ │   │   └── ...remaining rule tests
 │ │   ├── points_calculator_test.go
 │ │   ├── receipt_service_test.go
 │ ├── adapters/
