@@ -6,7 +6,7 @@ build:
 	go build ./...
 
 test:
-	go test ./...
+	gotestsum --format=short
 
 run:
 	go run cmd/api/main.go
