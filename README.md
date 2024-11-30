@@ -304,7 +304,7 @@ make test
 
 ## Appilcation Architecture:
 
-This API was designed following Hexegonal Architecture principles.
+This API was designed following Hexagonal Architecture principles.
 
 ### **Hexagonal Architecture Overview**
 
