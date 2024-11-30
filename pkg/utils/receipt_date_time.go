@@ -14,17 +14,17 @@ import (
 // Parameters:
 //   - receipt: The domain.Receipt object containing receipt details.
 //
-// Returns: A time.TIme value representing the the exact time of the purchase
-//   - combinedTime: A unique identifier for the processed receipt.
+// Returns:
+//   - combinedTime: A time.Time value representing the the exact time of the purchase.
 //   - err: An error if parsing date or time fails
 func ParseReceiptDateTime(receipt domain.Receipt) (time.Time, error) {
-	// Parse the purchase date using the "YYYY-MM-DD" format
+	// "YYYY-MM-DD" format
 	parsedDate, err := time.Parse("2006-01-02", receipt.PurchaseDate)
 	if err != nil {
 		return time.Time{}, fmt.Errorf("invalid purchase date format: %v", err)
 	}
 
-	// Parse the purchase time using the "HH:MM" format
+	// "HH:MM" format
 	parsedTime, err := time.Parse("15:04", receipt.PurchaseTime)
 	if err != nil {
 		return time.Time{}, fmt.Errorf("invalid purchase time format: %v", err)
@@ -35,6 +35,5 @@ func ParseReceiptDateTime(receipt domain.Receipt) (time.Time, error) {
 	combinedTime := time.Date(parsedDate.Year(), parsedDate.Month(), parsedDate.Day(),
 		parsedTime.Hour(), parsedTime.Minute(), 0, 0, parsedDate.Location())
 
-	// Return the combined time
 	return combinedTime, nil
 }

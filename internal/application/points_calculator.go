@@ -6,10 +6,9 @@ import (
 	"go-receipt-processor/pkg/utils"
 )
 
-// PointsCalculatorImpl implements the PointsCalculator interface,
-// responsible for calculating points based on receipt data.
+// PointsCalculatorImpl responsible for calculating points based on receipt data.
 type PointsCalculatorImpl struct {
-	helpers http.PointsCalculatorRules // Dependency injection of helper methods
+	helpers http.PointsCalculatorRules
 }
 
 // NewPointsCalculator creates and returns a new instance of PointsCalculatorImpl.
@@ -19,7 +18,7 @@ func NewPointsCalculator(helpers http.PointsCalculatorRules) http.PointsCalculat
 	}
 }
 
-// CalculatePoints calculates the total points for a receipt based on specific business rules.
+// CalculatePoints
 //
 // Parameters:
 //   - receipt: The domain.Receipt object containing receipt details.
@@ -30,10 +29,9 @@ func NewPointsCalculator(helpers http.PointsCalculatorRules) http.PointsCalculat
 func (c *PointsCalculatorImpl) CalculatePoints(receipt domain.Receipt) (int, error) {
 	points := 0
 
-	// Parse purchase date and time from the receipt.
 	parsedDateAndTime, err := utils.ParseReceiptDateTime(receipt)
 	if err != nil {
-		return 0, err // Return error if parsing fails
+		return 0, err
 	}
 
 	// Rule 1.
