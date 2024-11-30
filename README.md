@@ -6,7 +6,7 @@
 
 This API was built to fulfill a code challenge for [Fetch Rewards](https://fetch.com/). For detailed instructions and rules, refer to the [fetch-rewards/receipt-processor-challenge](https://github.com/fetch-rewards/receipt-processor-challenge) repository.
 
-**Note**: This is my second time building this API. Since I was unfamiliar with Go before starting thi sproject, I [built it with TypeScript](https://github.com/derekvmcintire/receipt-processor) the first time around.
+**Note**: This is my second time building this API. Since I was unfamiliar with Go before starting this sproject, I [built it with TypeScript](https://github.com/derekvmcintire/receipt-processor) the first time around.
 
 ---
 
